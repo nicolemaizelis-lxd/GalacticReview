@@ -3,21 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Training Module: Day 1 - Galactic Scale Numbers</title>
+    <title>Final Exam Prep - Galactic Academy</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Cosmic Dark -->
-    <!-- Application Structure Plan: The application is a single, scrollable page presenting the "Day 1 Training Module" content. It is divided into logical sections: an introduction, a section for Grade 7 content, a section for Grade 8 (Extension) content, and a final "Check for Understanding" section. This linear flow mirrors the progression of a learning module. Each section incorporates interactive input fields and validation buttons to allow students to immediately apply concepts and check their understanding, fostering active learning. The structure prioritizes clear separation of grade-level content and immediate feedback. -->
-    <!-- Visualization & Content Choices: 
-        Textual Content: All explanations, concepts, and examples are presented as plain text within styled HTML elements. Goal: Inform. Method: HTML paragraphs and headings. Interaction: None, passive consumption. Justification: Clear and direct presentation of instructional material.
-        Activity 1 (Cosmic Number Crunch): Input fields for numerical answers and check buttons. Goal: Apply/Inform. Method: HTML input elements, JavaScript for validation. Interaction: User input, button click for feedback. Justification: Allows students to practice conversions and receive immediate feedback.
-        Activity 2 (Galactic Notation Challenge): Input fields for scientific notation conversion and ordering, with check buttons. Goal: Apply/Compare. Method: HTML input elements, JavaScript for validation. Interaction: User input, button click for feedback. Justification: Practical application of scientific notation and ordering skills.
-        Cosmic Scale Checkpoint: Input fields for answers and a check button. Goal: Assess Understanding. Method: HTML input elements, JavaScript for validation. Interaction: User input, button click for feedback. Justification: Provides a summative self-assessment for the module.
-        No Charts/Visualizations: This module focuses on numerical representation and direct application, so Chart.js/Plotly.js are not used.
-    -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -52,205 +43,267 @@
         .btn-primary:hover {
             background-color: #0f766e; /* Darker teal on hover */
         }
-        .input-field {
-            background-color: #1a202c; /* Dark input background */
-            border: 1px solid #4a5568; /* Gray border */
-            color: #e0e0e0; /* Light text */
+        .answer-box {
+            display: none;
+            transition: all 0.3s ease-in-out;
         }
-        .result-message {
-            margin-top: 0.5rem;
-            padding: 0.5rem;
-            border-radius: 0.25rem;
-            font-weight: bold;
+        .question-card {
+            background-color: #1a1e26;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        .result-correct {
-            background-color: #10b981; /* Green */
-            color: #064e3b; /* Darker green */
+        .question-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
         }
-        .result-incorrect {
-            background-color: #ef4444; /* Red */
-            color: #7f1d1d; /* Darker red */
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
         }
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 0;
-            padding-bottom: 0;
+        .message-box {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #1a202c;
+            color: #e0e0e0;
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: 1px solid #4a5568;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            animation: fadeInOut 3s forwards;
         }
-
-    /* Hide scrollbar for Chrome, Safari and Opera */
-    body::-webkit-scrollbar {
-        display: none;
-    }
-
-    /* Hide scrollbar for IE, Edge and Firefox */
-    body {
-        -ms-overflow-style: none;  /* IE and Edge */
-        scrollbar-width: none;  /* Firefox */
-    }
-
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; transform: translate(-50%, -20px); }
+            10%, 90% { opacity: 1; transform: translate(-50%, 0); }
+        }
     </style>
 </head>
+
 <body class="antialiased p-4">
+    <div id="message-container"></div>
+
     <div class="max-w-4xl mx-auto container-panel rounded-lg p-6 md:p-8 shadow-lg">
+        <header class="text-center mb-8">
+            <h1 class="font-orbitron text-3xl md:text-4xl font-bold section-header">Final Exam Preparation</h1>
+            <p class="text-lg md:text-xl text-gray-400 mt-2">Prove you're ready for the stars, Cadets. This is your final practice mission!</p>
+        </header>
+        
+        <p class="text-sm text-gray-400 mt-4 mb-6 text-center">
+            <i class="fa-solid fa-circle-info"></i> Tip: When entering exponents, please use the caret symbol (e.g., `10^8` for `10⁸`).
+        </p>
 
-
-
+        <!-- Grade 7 Cadets Section -->
         <section class="mb-10 p-6 activity-panel rounded-lg">
-            <h2 class="font-orbitron text-2xl section-header mb-4">Grade 7 - Measuring Cosmic Distances</h2>
-            <p class="text-gray-400 mb-4">**Objective:** Learn to represent and compare whole numbers up to one billion, including using powers of ten.</p>
-
-            <h3 class="font-bold text-lg sub-section-header mb-2">Concept: The Power of Ten</h3>
-            <p class="text-gray-300 mb-4">When numbers get very large, we use a shortcut called "powers of ten." Instead of writing out `1,000,000,000`, we can write it as 10<sup>9</sup>. The little number (the exponent) tells us how many times to multiply 10 by itself. It also tells us how many zeros are after the 1!</p>
-            <ul class="list-disc list-inside text-gray-300 mb-4">
-                <li>10<sup>1</sup> = 10</li>
-                <li>10<sup>2</sup> = 10 &times; 10 = 100</li>
-                <li>10<sup>3</sup> = 10 &times; 10 &times; 10 = 1,000 (One thousand)</li>
-                <li>10<sup>6</sup> = 1,000,000 (One million)</li>
-                <li>10<sup>9</sup> = 1,000,000,000 (One billion)</li>
-            </ul>
-
-            <h3 class="font-bold text-lg sub-section-header mb-2">Example 1: Planetary Populations</h3>
-            <p class="text-gray-300 mb-2">The population of Earth is approximately 8,000,000,000 people.</p>
-            <ul class="list-disc list-inside text-gray-300 mb-4">
-                <li>In powers of ten, we can write this as 8 &times; 10<sup>9</sup>.</li>
-                <li>To read this, we say "eight billion."</li>
-            </ul>
-
-            <h3 class="font-bold text-lg sub-section-header mb-2">Example 2: Distance to the Moon</h3>
-            <p class="text-gray-300 mb-2">The average distance from Earth to the Moon is about 384,400 kilometers.</p>
-            <ul class="list-disc list-inside text-gray-300 mb-4">
-                <li>We can approximate this using powers of ten: 3.844 &times; 10<sup>5</sup> km.</li>
-                <li>If we round it to the nearest hundred thousand, it's 400,000 km, which is 4 &times; 10<sup>5</sup> km.</li>
-            </ul>
-
-            <h3 class="font-bold text-lg sub-section-header mb-3">Activity 1: Cosmic Number Crunch</h3>
-            <div class="space-y-4">
-                <div>
-                    <p class="text-gray-300 mb-2">1. Write the following numbers in standard form:</p>
-                    <div class="mb-2">
-                        <label for="q1a_standard" class="block text-sm font-medium text-gray-400">a) Estimated stars in Milky Way: 2 &times; 10<sup>11</sup></label>
-                        <input type="text" id="q1a_standard" class="input-field mt-1 block w-full rounded-md shadow-sm p-2">
-                        <button class="btn-primary mt-2 py-1 px-3 rounded-md" onclick="checkAnswer('q1a_standard', '200000000000', 'result_q1a_standard')">Check Answer</button>
-                        <div id="result_q1a_standard" class="result-message text-sm"></div>
-                    </div>
-                    <div class="mb-2">
-                        <label for="q1b_standard" class="block text-sm font-medium text-gray-400">b) Approximate grains of sand on Earth: 7 &times; 10<sup>18</sup></label>
-                        <input type="text" id="q1b_standard" class="input-field mt-1 block w-full rounded-md shadow-sm p-2">
-                        <button class="btn-primary mt-2 py-1 px-3 rounded-md" onclick="checkAnswer('q1b_standard', '7000000000000000000', 'result_q1b_standard')">Check Answer</button>
-                        <div id="result_q1b_standard" class="result-message text-sm"></div>
-                    </div>
-                    <div class="mb-2">
-                        <label for="q1c_standard" class="block text-sm font-medium text-gray-400">c) Approximate mass of Earth in kilograms: 6 &times; 10<sup>24</sup></label>
-                        <input type="text" id="q1c_standard" class="input-field mt-1 block w-full rounded-md shadow-sm p-2">
-                        <button class="btn-primary mt-2 py-1 px-3 rounded-md" onclick="checkAnswer('q1c_standard', '6000000000000000000000000', 'result_q1c_standard')">Check Answer</button>
-                        <div id="result_q1c_standard" class="result-message text-sm"></div>
-                    </div>
+            <h2 class="font-orbitron text-2xl section-header mb-4">Grade 7 Cadet Examination</h2>
+            
+            <!-- Question 1 (G7 B1.1) - Straightforward -->
+            <div class="question-card p-6 rounded-lg mb-6">
+                <p class="font-semibold text-lg sub-section-header mb-2" id="q-g7-1">1. **Stellar Census:** The estimated number of stars in a nearby galaxy is 450,000,000. Write this number in expanded form using powers of ten.</p>
+                <input type="text" id="input-g7-1" class="w-full mt-2 p-2 rounded-md bg-gray-800 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500" placeholder="Your answer here...">
+                <div class="button-group">
+                    <button onclick="checkAnswer('g7-1')" class="btn-primary px-4 py-2 mt-4 rounded-full text-sm">Check Answer</button>
+                    <button onclick="toggleAnswer(this)" class="btn-primary px-4 py-2 mt-4 rounded-full text-sm">Show Answer</button>
                 </div>
+                <div id="feedback-g7-1" class="mt-4 p-4 rounded-lg text-center font-bold" style="display: none;"></div>
+                <div class="answer-box mt-4 p-4 rounded-lg bg-gray-800 border border-gray-700">
+                    <p><strong>Answer:</strong> (4 x 10⁸) + (5 x 10⁷)</p>
+                </div>
+            </div>
 
-                <div>
-                    <p class="text-gray-300 mb-2">2. Write the following numbers using powers of ten (e.g., 5,000,000 = 5 &times; 10<sup>6</sup>):</p>
-                    <div class="mb-2">
-                        <label for="q2a_powers" class="block text-sm font-medium text-gray-400">a) Approx. galaxies in observable universe: 2,000,000,000,000</label>
-                        <input type="text" id="q2a_powers" class="input-field mt-1 block w-full rounded-md shadow-sm p-2" placeholder="e.g., 5 x 10^2">
-                        <button class="btn-primary mt-2 py-1 px-3 rounded-md" onclick="checkAnswer('q2a_powers', '2 x 10^12', 'result_q2a_powers')">Check Answer</button>
-                        <div id="result_q2a_powers" class="result-message text-sm"></div>
-                    </div>
-                    <div class="mb-2">
-                        <label for="q2b_powers" class="block text-sm font-medium text-gray-400">b) Mass of Jupiter in kilograms: 1,898,000,000,000,000,000,000,000,000</label>
-                        <input type="text" id="q2b_powers" class="input-field mt-1 block w-full rounded-md shadow-sm p-2" placeholder="e.g., 5 x 10^2">
-                        <button class="btn-primary mt-2 py-1 px-3 rounded-md" onclick="checkAnswer('q2b_powers', '1.898 x 10^27', 'result_q2b_powers')">Check Answer</button>
-                        <div id="result_q2b_powers" class="result-message text-sm"></div>
-                    </div>
-                    <div class="mb-2">
-                        <label for="q2c_powers" class="block text-sm font-medium text-gray-400">c) Estimated atoms in a grain of sand: 1,000,000,000,000,000,000,000</label>
-                        <input type="text" id="q2c_powers" class="input-field mt-1 block w-full rounded-md shadow-sm p-2" placeholder="e.g., 5 x 10^2">
-                        <button class="btn-primary mt-2 py-1 px-3 rounded-md" onclick="checkAnswer('q2c_powers', '1 x 10^21', 'result_q2c_powers')">Check Answer</button>
-                        <div id="result_q2c_powers" class="result-message text-sm"></div>
-                    </div>
+            <!-- Question 2 (G7 B1.2) - Problem -->
+            <div class="question-card p-6 rounded-lg mb-6">
+                <p class="font-semibold text-lg sub-section-header mb-2" id="q-g7-2">2. **Asteroid Field Navigation:** A new square asteroid field has an area of 169 square units. If a pilot flies along two adjacent sides of the field, what is the total distance the pilot flew? Explain your reasoning.</p>
+                <input type="text" id="input-g7-2" class="w-full mt-2 p-2 rounded-md bg-gray-800 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500" placeholder="Your answer here...">
+                <div class="button-group">
+                    <button onclick="checkAnswer('g7-2')" class="btn-primary px-4 py-2 mt-4 rounded-full text-sm">Check Answer</button>
+                    <button onclick="toggleAnswer(this)" class="btn-primary px-4 py-2 mt-4 rounded-full text-sm">Show Answer</button>
+                </div>
+                <div id="feedback-g7-2" class="mt-4 p-4 rounded-lg text-center font-bold" style="display: none;"></div>
+                <div class="answer-box mt-4 p-4 rounded-lg bg-gray-800 border border-gray-700">
+                    <p><strong>Answer:</strong> The square root of 169 is 13, so each side is 13 units long. The pilot flew along two adjacent sides, so the total distance is 13 + 13 = 26 units.</p>
+                </div>
+            </div>
+
+            <!-- Question 3 (G7 B1.3) - Straightforward -->
+            <div class="question-card p-6 rounded-lg mb-6">
+                <p class="font-semibold text-lg sub-section-header mb-2" id="q-g7-3">3. **Warp Drive Coordinates:** Order the following coordinates from greatest to least: 3/5, -0.75, 0.65, 1.</p>
+                <input type="text" id="input-g7-3" class="w-full mt-2 p-2 rounded-md bg-gray-800 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500" placeholder="Your answer here...">
+                <div class="button-group">
+                    <button onclick="checkAnswer('g7-3')" class="btn-primary px-4 py-2 mt-4 rounded-full text-sm">Check Answer</button>
+                    <button onclick="toggleAnswer(this)" class="btn-primary px-4 py-2 mt-4 rounded-full text-sm">Show Answer</button>
+                </div>
+                <div id="feedback-g7-3" class="mt-4 p-4 rounded-lg text-center font-bold" style="display: none;"></div>
+                <div class="answer-box mt-4 p-4 rounded-lg bg-gray-800 border border-gray-700">
+                    <p><strong>Answer:</strong> 1, 0.65, 3/5, -0.75</p>
+                </div>
+            </div>
+
+            <!-- Question 4 (G7 B2.7) - Problem -->
+            <div class="question-card p-6 rounded-lg mb-6">
+                <p class="font-semibold text-lg sub-section-header mb-2" id="q-g7-4">4. **Quantum Communication:** A quantum signal's strength is measured as 5 x 5 x 5 x 5 x 5. Express this value using exponential notation.</p>
+                <input type="text" id="input-g7-4" class="w-full mt-2 p-2 rounded-md bg-gray-800 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500" placeholder="Your answer here...">
+                <div class="button-group">
+                    <button onclick="checkAnswer('g7-4')" class="btn-primary px-4 py-2 mt-4 rounded-full text-sm">Check Answer</button>
+                    <button onclick="toggleAnswer(this)" class="btn-primary px-4 py-2 mt-4 rounded-full text-sm">Show Answer</button>
+                </div>
+                <div id="feedback-g7-4" class="mt-4 p-4 rounded-lg text-center font-bold" style="display: none;"></div>
+                <div class="answer-box mt-4 p-4 rounded-lg bg-gray-800 border border-gray-700">
+                    <p><strong>Answer:</strong> In exponential notation, this is 5⁵. As a whole number, it is 5 x 5 x 5 x 5 x 5 = 3125.</p>
+                </div>
+            </div>
+
+            <!-- Question 5 (G7 B1.6) - Straightforward -->
+            <div class="question-card p-6 rounded-lg mb-6">
+                <p class="font-semibold text-lg sub-section-header mb-2" id="q-g7-5">5. **Galactic Report:** A celestial body has an atmospheric temperature of -210.482° Celsius. Round this temperature to the nearest hundredth.</p>
+                <input type="text" id="input-g7-5" class="w-full mt-2 p-2 rounded-md bg-gray-800 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500" placeholder="Your answer here...">
+                <div class="button-group">
+                    <button onclick="checkAnswer('g7-5')" class="btn-primary px-4 py-2 mt-4 rounded-full text-sm">Check Answer</button>
+                    <button onclick="toggleAnswer(this)" class="btn-primary px-4 py-2 mt-4 rounded-full text-sm">Show Answer</button>
+                </div>
+                <div id="feedback-g7-5" class="mt-4 p-4 rounded-lg text-center font-bold" style="display: none;"></div>
+                <div class="answer-box mt-4 p-4 rounded-lg bg-gray-800 border border-gray-700">
+                    <p><strong>Answer:</strong> -210.48° Celsius.</p>
                 </div>
             </div>
         </section>
 
+    </div>
+
     <script>
-        function normalizeScientificNotation(input) {
-            input = input.toLowerCase().replace(/\s/g, '');
-            if (input.includes('x10^')) {
-                let parts = input.split('x10^');
-                let base = parseFloat(parts[0]);
-                let exponent = parseInt(parts[1]);
-                if (!isNaN(base) && !isNaN(exponent)) {
-                    return `${base.toFixed(10).replace(/\.?0+$/, '')}x10^${exponent}`;
+        // Store correct answers and their custom validation logic
+        const correctAnswers = {
+            'g7-1': {
+                correct: '(4 x 10⁸) + (5 x 10⁷)',
+                validate: (input) => {
+                    const normalizedInput = input.replace(/\s/g, '').replace(/\^/g, '').toLowerCase();
+                    const part1 = '4x108';
+                    const part2 = '5x107';
+                    // This is a more flexible check to see if both parts exist, regardless of order or grouping
+                    const hasPart1 = normalizedInput.includes(part1);
+                    const hasPart2 = normalizedInput.includes(part2);
+                    return hasPart1 && hasPart2;
+                }
+            },
+            'g7-2': {
+                correct: '26',
+                validate: (input) => {
+                    // Check for the number 26, ignoring any surrounding text
+                    const number = parseFloat(input.match(/[\d.]+/));
+                    return number === 26;
+                }
+            },
+            'g7-3': {
+                correct: '1, 0.65, 3/5, -0.75',
+                validate: (input) => {
+                    const normalizedInput = input.replace(/\s/g, '');
+                    // We check for all possible valid formats
+                    const correctOrderDecimals = [1, 0.65, 0.6, -0.75];
+                    const userParts = normalizedInput.split(',').map(part => {
+                        if (part === '3/5') return 0.6;
+                        return parseFloat(part);
+                    });
+
+                    // Check if the order is correct
+                    if (userParts.length !== correctOrderDecimals.length) return false;
+                    for (let i = 0; i < correctOrderDecimals.length; i++) {
+                        if (userParts[i] !== correctOrderDecimals[i]) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+            },
+            'g7-4': {
+                correct: '3125',
+                validate: (input) => {
+                    const normalizedInput = input.replace(/\s/g, '').toLowerCase();
+                    // Check for either the number or the exponential form
+                    return normalizedInput === '3125' || normalizedInput === '5^5' || normalizedInput === '5e5';
+                }
+            },
+            'g7-5': {
+                correct: '-210.48',
+                validate: (input) => {
+                    // Simple numerical comparison
+                    const number = parseFloat(input);
+                    return number === -210.48;
                 }
             }
-            return input;
+        };
+
+        // Function to show a temporary message box
+        function showMessage(text) {
+            const container = document.getElementById('message-container');
+            const messageBox = document.createElement('div');
+            messageBox.className = 'message-box';
+            messageBox.textContent = text;
+            container.appendChild(messageBox);
+            setTimeout(() => {
+                messageBox.remove();
+            }, 3000);
         }
 
-        function checkAnswer(inputId, correctAnswer, resultId) {
-            const inputElement = document.getElementById(inputId);
-            const resultElement = document.getElementById(resultId);
-            let userAnswer = inputElement.value.trim();
+        // Function to toggle the visibility of the answer box
+        function toggleAnswer(button) {
+            const answerBox = button.closest('.button-group').nextElementSibling.nextElementSibling;
+            if (answerBox) {
+                if (answerBox.style.display === "block") {
+                    answerBox.style.display = "none";
+                    button.textContent = "Show Answer";
+                } else {
+                    answerBox.style.display = "block";
+                    button.textContent = "Hide Answer";
+                }
+            }
+        }
+        
+        /**
+         * Checks if the user's answer is correct using the custom validation logic.
+         * @param {string} questionId - The ID of the question.
+         */
+        function checkAnswer(questionId) {
+            const feedbackElement = document.getElementById(`feedback-${questionId}`);
+            const inputElement = document.getElementById(`input-${questionId}`);
+            
+            // Check if the input element exists
+            if (!inputElement) {
+                console.error(`Input element with ID 'input-${questionId}' not found.`);
+                feedbackElement.style.display = "block";
+                feedbackElement.textContent = "Error: Input field not found.";
+                feedbackElement.style.backgroundColor = 'rgba(239, 68, 68, 0.2)';
+                feedbackElement.style.color = '#ef4444';
+                return;
+            }
+
+            const userAnswer = inputElement.value.trim();
+            const questionData = correctAnswers[questionId];
+            
             let isCorrect = false;
-
-            if (userAnswer.includes('x10^')) {
-                userAnswer = normalizeScientificNotation(userAnswer);
-                correctAnswer = normalizeScientificNotation(correctAnswer);
-                isCorrect = userAnswer === correctAnswer;
-            } else if (userAnswer.includes('x 10^')) {
-                 userAnswer = normalizeScientificNotation(userAnswer.replace('x 10^', 'x10^'));
-                 correctAnswer = normalizeScientificNotation(correctAnswer.replace('x 10^', 'x10^'));
-                 isCorrect = userAnswer === correctAnswer;
+            if (questionData && typeof questionData.validate === 'function') {
+                try {
+                    isCorrect = questionData.validate(userAnswer);
+                } catch (e) {
+                    console.error(`Error during validation for ${questionId}:`, e);
+                    isCorrect = false;
+                }
+            } else {
+                console.error(`No validation function found for question ID: ${questionId}`);
+                isCorrect = false;
             }
-            else {
-                isCorrect = userAnswer === correctAnswer;
-            }
-
+            
+            feedbackElement.style.display = "block";
+            
             if (isCorrect) {
-                resultElement.textContent = "Correct! Mission accomplished.";
-                resultElement.className = "result-message result-correct";
+                feedbackElement.textContent = "Mission Accomplished! Answer is correct. ✅";
+                feedbackElement.style.backgroundColor = 'rgba(16, 185, 129, 0.2)'; // Green tint
+                feedbackElement.style.color = '#10b981'; // Green text
             } else {
-                resultElement.textContent = `Incorrect. The correct answer is: ${correctAnswer}`;
-                resultElement.className = "result-message result-incorrect";
-            }
-        }
-
-        function checkOrder() {
-            const q4a = document.getElementById('q4a_order').value;
-            const q4b = document.getElementById('q4b_order').value;
-            const q4c = document.getElementById('q4c_order').value;
-            const resultElement = document.getElementById('result_q4_order');
-
-            const answers = {
-                '4.9e15': q4a,
-                '1.2e16': q4b,
-                '9.5e17': q4c
-            };
-
-            const sortedKeys = ['4.9e15', '1.2e16', '9.5e17']; // Corresponding to 1st, 2nd, 3rd in order
-
-            if (answers[sortedKeys[0]] == '1' && answers[sortedKeys[1]] == '2' && answers[sortedKeys[2]] == '3') {
-                resultElement.textContent = "Correct! Order established.";
-                resultElement.className = "result-message result-correct";
-            } else {
-                resultElement.textContent = "Incorrect. Review the magnitudes and try again.";
-                resultElement.className = "result-message result-incorrect";
-            }
-        }
-
-        function checkCFUQuestion3() {
-            const inputElement = document.getElementById('cfu_q3');
-            const resultElement = document.getElementById('result_cfu_q3');
-            const userAnswer = inputElement.value.toLowerCase();
-
-            if (userAnswer.includes('star is greater') || userAnswer.includes('star is farther')) {
-                resultElement.textContent = "Correct! The star is significantly farther.";
-                resultElement.className = "result-message result-correct";
-            } else {
-                resultElement.textContent = "Incorrect. Re-evaluate the distances and their magnitudes.";
-                resultElement.className = "result-message result-incorrect";
+                feedbackElement.textContent = "Incorrect. Try again, Cadet. ❌";
+                feedbackElement.style.backgroundColor = 'rgba(239, 68, 68, 0.2)'; // Red tint
+                feedbackElement.style.color = '#ef4444'; // Red text
             }
         }
     </script>
